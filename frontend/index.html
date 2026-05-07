@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Previsão do Tempo</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Previsão do Tempo</h1>
+    <input 
+      type="text"
+      id="cidade"
+      placeholder="Digite uma cidade"
+      value="Recife"
+      onkeypress="pressionarEnter(event)"
+    >
+    <button onclick="buscarClima()">
+      Consultar Clima
+    </button>
+    <div id="resultado"></div>
+  </div>
+  <script>
+    async function buscarClima() {
+      const cidade = document.getElementById("cidade").value;
+      const resultado = document.getElementById("resultado");
+      resultado.innerHTML = "<p>Buscando clima...</p>";
+      try {
+        const resposta = await fetch(
+          `http://${window.location.hostname}:3000/weather?city=${encodeURIComponent(cidade)}`
+        );
+        const dados = await resposta.json();
+        if (!resposta.ok) {
+          resultado.innerHTML = `
+            <p>${dados.erro}</p>
+          `;
+          return;
+        }
+        resultado.innerHTML = `
+          <h2>${dados.cidade}</h2>
+          <p>
+            <strong>Estado:</strong> ${dados.estado || "N/A"}
+          </p>
+
+          <p>
+            <strong>País:</strong> ${dados.pais || "N/A"}
+          </p>
+
+          <p>
+            <strong>Temperatura:</strong> ${dados.temperatura}
+          </p>
+
+          <p>
+            <strong>Clima:</strong> ${dados.clima}
+          </p>
+
+          <p>
+            <strong>Vento:</strong> ${dados.vento}
+          </p>
+
+          <p>
+            <strong>Horário:</strong> ${dados.horario}
+          </p>
+        `;
+      } catch (erro) {
+        resultado.innerHTML = `
+          <p>Erro ao conectar com o servidor.</p>
+        `;
+      }
+    }
+    function pressionarEnter(event) {
+      if (event.key === "Enter") {
+        buscarClima();
+      }
+    }
+  </script>
+</body>
+</html>

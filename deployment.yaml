@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-docker-kubernetes
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-docker-kubernetes
+  template:
+    metadata:
+      labels:
+        app: app-docker-kubernetes
+    spec:
+      containers:
+        - name: app-docker-kubernetes
+          image: app-docker-kubernetes
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000

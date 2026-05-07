@@ -1,0 +1,23 @@
+body {
+  font-family: Arial;
+  background: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.container {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  width: 300px;
+}
+
+button {
+  padding: 10px;
+  background: #007BFF;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
